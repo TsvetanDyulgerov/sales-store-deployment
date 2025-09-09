@@ -15,6 +15,8 @@ services:
 
   # --- PostgreSQL database ---
     db:
+      env_file:
+        - ./backend/.env
       image: postgres:16
       restart: always
       volumes:

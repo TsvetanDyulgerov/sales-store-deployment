@@ -1,52 +1,71 @@
 # Sales Store Deployment
 
-This repository orchestrates deployment for the Sales Store application, including backend (Spring Boot), frontend (Express), and PostgreSQL database.
+This repository orchestrates full scale deployment for the Sales Store application, including backend (Spring Boot), frontend (Express), and PostgreSQL database.
+
+- The frontend is individually hosted at: [sales-store-frontend](https://github.com/TsvetanDyulgerov/sales-store-frontend)
+- The backend is individually hosted at: [sales-store-backend](https://github.com/TsvetanDyulgerov/sales-store-backend)
+
 
 ## Prerequisites
 - Docker & Docker Compose installed
-- Clone this repository
 
-## Setup
-1. **Environment Variables**
-   - Copy the provided `.env.example` files or create your own:
-     - `/backend/.env` (for backend service)
-     - `/frontend/.env` (for frontend service)
-   - Fill in the required values (see below for example contents).
+## Getting Started
 
-2. **Build & Start Services**
+1. **Clone the repository:**
+   ```sh
+   git clone https://github.com/TsvetanDyulgerov/sales-store-deployment
+   
+2. **Navigate to the project directory:**
+   ```sh
+   cd sales-store-deployment
+   ```
+   
+3. **Set environment variables:**
+
+    - Rename the existing .env.example file to .env and update the environment variables as needed.
+
+
+4. **Start the application using Docker Compose:**
    ```sh
    docker-compose up --build
    ```
-   This will start the backend, frontend, and database containers.
 
-## Example .env Files
 
-### `/backend/.env`
-```
+
+## Example .env File
+
+
+### `/.env`
+```# BACKEND
+# Postgres
 POSTGRES_DB=SalesStore
 POSTGRES_USER=admin
-POSTGRES_PASSWORD=adminpass1234
+POSTGRES_PASSWORD=youradminpassword
+
+# App settings
 SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/SalesStore
 SPRING_DATASOURCE_USERNAME=admin
-SPRING_DATASOURCE_PASSWORD=adminpass1234
+SPRING_DATASOURCE_PASSWORD=youradminpassword
+
+# Backend
 APP_PORT=8080
 SPRING_PROFILES_ACTIVE=prod
-JWT_SECRET=your256bitsecretkey
+
+# Security - VERY IMPORTANT: Use a strong 256-bit secret key for JWT
+# You can generate one using online tools or libraries
+JWT_SECRET=yourverysecure265bitjwtsecretkey
+
+# UI
 UI_PORT=3000
-```
 
-### `/frontend/.env`
-```
+#FRONTEND
+# Environment variables for the frontend application
+
+# Port for the Express server
 PORT=3001
+
 ```
 
-## Notes
-- `.env` files are **gitignored** for security. Each user must create their own.
-- For troubleshooting, check container logs:
-  ```sh
-  docker-compose logs
-  ```
-- For custom configuration, edit the `.env` files and `docker-compose.yml` as needed.
 
 ## Stopping Services
 ```sh
@@ -65,6 +84,7 @@ If you update the backend or frontend code in their respective repositories, you
      ```
    - Or, if using a different branch, pull the appropriate branch.
 
+
 2. **Rebuild Docker Images**
    - After updating the code, rebuild the containers to use the new code:
      ```sh
@@ -79,14 +99,3 @@ If you update the backend or frontend code in their respective repositories, you
      docker-compose up --build
      ```
 
-4. **Check for New Environment Variables**
-   - If the subrepo update requires new environment variables, update the corresponding `.env` file in the deployment repo.
-
-5. **Troubleshooting**
-   - Check logs for errors:
-     ```sh
-     docker-compose logs
-     ```
-
-## Questions?
-Open an issue or contact the repository maintainer.
