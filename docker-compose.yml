@@ -1,0 +1,62 @@
+services:
+  # --- Spring Boot backend ---
+    server:
+      build:
+        context: ./backend
+      ports:
+        - "8080:8080"
+      depends_on:
+        db:
+          condition: service_healthy
+      env_file:
+        - ./backend/.env
+      networks:
+        - app-network
+
+  # --- PostgreSQL database ---
+    db:
+      image: postgres:16
+      restart: always
+      volumes:
+        - db-data:/var/lib/postgresql/data
+        - ./sales-store-backend/DBInit.sql:/docker-entrypoint-initdb.d/DBInit.sql
+      environment:
+        POSTGRES_DB: ${POSTGRES_DB}
+        POSTGRES_USER: ${POSTGRES_USER}
+        POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      healthcheck:
+        test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+        interval: 5s
+        timeout: 5s
+        retries: 5
+      networks:
+        - app-network
+
+  # --- Express frontend ---
+    frontend:
+      build:
+        context: ./frontend
+        dockerfile: Dockerfile
+      ports:
+        - "3001:3001"
+      env_file:
+        - ./frontend/.env
+      environment:
+        NODE_ENV: production
+        BACKEND_URL: http://server:8080
+      command: ["node", "server.js"]
+      restart: unless-stopped
+      depends_on:
+        - server
+      networks:
+        - app-network
+
+# --- Volumes for persistent DB data ---
+volumes:
+  db-data:
+
+# --- Shared network so services can talk ---
+networks:
+  app-network:
+    driver: bridge
+
