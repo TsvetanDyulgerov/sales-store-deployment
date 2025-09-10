@@ -9,7 +9,7 @@ services:
         db:
           condition: service_healthy
       env_file:
-        - ./backend/.env
+        - ./.env
       networks:
         - app-network
 
@@ -42,7 +42,7 @@ services:
       ports:
         - "3001:3001"
       env_file:
-        - ./frontend/.env
+        - ./.env
       environment:
         NODE_ENV: production
         BACKEND_URL: http://server:8080
