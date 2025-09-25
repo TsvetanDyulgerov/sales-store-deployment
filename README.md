@@ -5,6 +5,22 @@ This repository orchestrates full scale deployment for the Sales Store applicati
 - The frontend is individually hosted at: [sales-store-frontend](https://github.com/TsvetanDyulgerov/sales-store-frontend)
 - The backend is individually hosted at: [sales-store-backend](https://github.com/TsvetanDyulgerov/sales-store-backend)
 
+## About
+
+Sales Store is a web-based e-commerce system which serves to unilaterally manage all business actions of an e-commerce business. 
+The project was built as part of an internship program and is tailored to the needs and requirements of a specific client.
+
+The app consists of three seperate parts:
+1. PostgreSQL Database for storing commerce related information
+2. Back-end in Java which serves a REST API, built using the Spring Framework.
+3. Front-end built as a standalone Express.js application
+
+As per the client's needs and requirements, this web-application contains the following functionality:
+- Registered users with the Admin role can create, update, read and delete entries of users, products, and orders. Admins can also generate filtered reports on the orders (by range of order date, username and/or product name)
+- Registered users without the Admin role can send new orders under their own account and see their previous order history.
+- Non-athenticated users must register or log into an existing account to access the application
+
+The entire three-part application is containerised and managed in a [docker](https://www.docker.com) container.
 
 ## Prerequisites
 - Docker & Docker Compose installed
